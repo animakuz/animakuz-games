@@ -1,18 +1,56 @@
+//--Base Data
+var cells   = document.querySelectorAll(".cell");
+var grid    = [["","",""],["","",""],["","",""]];
+var players = ["X", "O"];
 
-var cells = document.querySelectorAll(".cell");
-var i, len = cells.length;
 
-var cellVal = [["","",""],["","",""],["","",""]];
+//--Base Functions
 
 
-for (i=0; i<len; i++) {
-  cells[i].onclick = function() {    
-    var cellInds = [];
-    var cellId = this.getAttribute("id");
-    cellInds[0] = cellId[1];
-    cellInds[1] = cellId[2];
-    
-    cellVal[cellInds[0], cellInds[1]] = "X";
-    alert( cellVal[cellInds[0], cellInds[1]]);
- };
+
+//--Gameplay
+function resetGame() {
+  //reset score
+  
+  //reset board
+
+  //choose players
+
 }
+
+function initGame() {
+  //set board
+  var i, len = cells.length;
+
+
+  for (i=0; i<len; i++) {
+    cells[i].onclick = function() {    
+      var cellId = this.getAttribute("id");
+      var indY  = cellId[1];
+      var indX  = cellId[2];
+      
+      if (grid[indY][indX] == "") {
+        grid[indY][indX] = players[0];
+        this.innerHTML = players[0];
+     
+      } else {
+        alert("Cell already occupied!");
+      }
+    
+    };
+  }
+
+  //set players
+
+  //launch game
+
+}
+
+
+initGame();
+
+
+
+//--User Interaction
+
+

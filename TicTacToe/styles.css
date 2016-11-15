@@ -24,10 +24,17 @@ body {
   width: 50px;
   height: 50px;
   background-color: #999999;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .grid td:hover {
   background-color: #cccccc;
+}
+
+.grid td.occupied:hover {
+  background-color: #aaaaaa;
 }
 
 
