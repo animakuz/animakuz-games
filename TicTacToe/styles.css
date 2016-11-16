@@ -34,7 +34,7 @@ body {
 }
 
 .grid td.occupied:hover {
-  background-color: #aaaaaa;
+  background-color: #ffaaaa;
 }
 
 

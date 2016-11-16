@@ -2,19 +2,19 @@
 var cells   = document.querySelectorAll(".cell");
 var grid    = [["","",""],["","",""],["","",""]];
 var players = ["X", "O"];
-
-
-//--Base Functions
-
-
+var game    = {
+  movesLeft: 0,
+  currentPlayer: 0  
+};
 
 //--Gameplay
-function resetGame() {
-  //reset score
-  
-  //reset board
+function nextTurn() {
+  //switch turns
+}
 
-  //choose players
+function checkGame() {
+  //checks if the board to see whether there is a win
+  //or the game is over (board full) with no win
 
 }
 
@@ -22,17 +22,17 @@ function initGame() {
   //set board
   var i, len = cells.length;
 
-
   for (i=0; i<len; i++) {
     cells[i].onclick = function() {    
       var cellId = this.getAttribute("id");
       var indY  = cellId[1];
       var indX  = cellId[2];
-      
+      var cell  = this;
+
       if (grid[indY][indX] == "") {
         grid[indY][indX] = players[0];
-        this.innerHTML = players[0];
-     
+        cell.innerHTML = players[0];
+        addClass(cell, "occupied");   
       } else {
         alert("Cell already occupied!");
       }
@@ -47,10 +47,26 @@ function initGame() {
 }
 
 
+function resetGame() {
+  //reset moves
+  game.movesLeft = 9;
+
+  //reset board
+  //use modify multiple from base func to execute the empty function on all the cells 
+
+  //choose starting player
+  game.currentPlayer = getRandomInt(0,1);
+  
+  initGame();
+
+}
+
+function endGame() {
+  //show game over screen and results
+
+  //give option to start new game
+}
+
+
 initGame();
-
-
-
-//--User Interaction
-
 
