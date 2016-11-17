@@ -10,12 +10,11 @@ var game    = {
 //--Gameplay
 function nextTurn() {
   //switch turns
-}
-
-function checkGame() {
-  //checks if the board to see whether there is a win
-  //or the game is over (board full) with no win
-
+  if (game.currentPlayer == 0) {
+    game.currentPlayer = 1;
+  } else {
+    game.currentPlayer = 0;
+  }
 }
 
 function initGame() {
@@ -46,7 +45,6 @@ function initGame() {
 
 }
 
-
 function resetGame() {
   //reset moves
   game.movesLeft = 9;
@@ -65,6 +63,25 @@ function endGame() {
   //show game over screen and results
 
   //give option to start new game
+}
+
+function checkWin() {
+  //check for different cases that equals a win
+  return true;
+}
+
+function checkGame() {
+  //checks if the board to see whether there is a win
+  //or the game is over (board full) with no win
+  if (checkWin()) {
+    //game over - win
+  } else {   
+    if (game.movesLeft <= 0) {
+      //game over - no win
+    } else {
+      nextTurn();
+    }   
+  }
 }
 
 
