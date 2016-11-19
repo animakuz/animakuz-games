@@ -8,29 +8,21 @@ var game    = {
 };
 
 //--Gameplay
-function nextTurn() {
-  //switch turns
-  if (game.currentPlayer == 0) {
-    game.currentPlayer = 1;
-  } else {
-    game.currentPlayer = 0;
-  }
-}
 
 function initGame() {
-  //set board
+  //setup board on initial launching of game
   var i, len = cells.length;
 
   for (i=0; i<len; i++) {
     cells[i].onclick = function() {    
-      var cellId = this.getAttribute("id");
-      var indY  = cellId[1];
-      var indX  = cellId[2];
-      var cell  = this;
+      var cell   = this;
+      var cellId = cell.getAttribute("id");
+      var indY   = cellId[1];
+      var indX   = cellId[2];
 
       if (grid[indY][indX] == "") {
-        grid[indY][indX] = players[0];
-        cell.innerHTML = players[0];
+        grid[indY][indX] = players[game.currentPlayer];
+        cell.innerHTML = players[game.currentPlayer];
         addClass(cell, "occupied");   
       } else {
         alert("Cell already occupied!");
@@ -39,7 +31,8 @@ function initGame() {
     };
   }
 
-  //set players
+  //choose start player
+  game.currentPlayer = getRandomInt(0,1);
 
   //launch game
 
@@ -50,19 +43,25 @@ function resetGame() {
   game.movesLeft = 9;
 
   //reset board
-  //use modify multiple from base func to execute the empty function on all the cells 
+   
 
   //choose starting player
   game.currentPlayer = getRandomInt(0,1);
-  
-  initGame();
-
 }
 
 function endGame() {
   //show game over screen and results
 
   //give option to start new game
+}
+
+function nextTurn() {
+  //switch turns
+  if (game.currentPlayer == 0) {
+    game.currentPlayer = 1;
+  } else {
+    game.currentPlayer = 0;
+  }
 }
 
 function checkWin() {
