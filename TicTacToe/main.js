@@ -37,7 +37,6 @@ function resetGame() {
   game.currentPlayer = baseFunc.getRandomInt(0,1);
   currentPlayer.innerHTML = players[game.currentPlayer];  
 
-  //launch game
 }
 
 function initGame() {
@@ -55,8 +54,7 @@ function initGame() {
         grid[indY][indX] = players[game.currentPlayer];
         cell.innerHTML = players[game.currentPlayer];
         baseFunc.addClass(cell, "occupied");  
-
-        //move to next turn/player
+     
         checkGame();        
       } else {
         alert("Cell already occupied!");
@@ -93,25 +91,48 @@ function nextTurn() {
 
 function checkWin() {
   //check for different cases that equals a win
-  return false;
+  if (baseFunc.getRandomInt(1,3) == 2) {
+    return players[game.currentPlayer];
+  } else { 
+    return false;
+  }
+}
+
+function newGame() {
+  var resp =  confirm("Would you like to start a new game?");
+        
+  if (resp) {
+    baseFunc.removeClass(gameStatus, "hidden");
+    resetGame();
+  } else {
+    alert("Thank you for playing");  
+  }
 }
 
 function checkGame() {
-  //checks if the board to see whether there is a win
-  //or the game is over (board full) with no win
-
-  //function called after every player move
+  /*
+    checks the board to see whether there is a win or the 
+    game is over (board full) with no win
+  */
+  var winner;
   game.movesLeft -= 1;
   movesLeft.innerHTML = game.movesLeft;
+  
+  winner = checkWin();
 
-
-  if (checkWin()) {
+  if (winner) {
     //game over - win
+    alert("Game Over - " + winner + " has won!");
+
+    newGame();
   } else {   
     if (game.movesLeft <= 0) {
       //game over - no win
-      alert("Game Over");
-      resetGame();
+      baseFunc.addClass(gameStatus, "hidden");
+
+      alert("Game Over - It's a draw!");
+      newGame();
+     
     } else {
       nextTurn();
     }   
