@@ -1,9 +1,10 @@
 //--Base Data
-var cells   = document.querySelectorAll(".cell");
-var grid    = [["","",""],["","",""],["","",""]];
-var players = ["X", "O"];
-var game    = {
-  movesLeft: 0,
+var movesLeft = document.getElementById("moves-left");
+var cells     = document.querySelectorAll(".cell");
+var grid      = [["","",""],["","",""],["","",""]];
+var players   = ["X", "O"];
+var game      = {
+  movesLeft: 9,
   currentPlayer: 0  
 };
 
@@ -23,7 +24,10 @@ function initGame() {
       if (grid[indY][indX] == "") {
         grid[indY][indX] = players[game.currentPlayer];
         cell.innerHTML = players[game.currentPlayer];
-        addClass(cell, "occupied");   
+        baseFunc.addClass(cell, "occupied");  
+
+        //move to next turn/player
+        checkGame();        
       } else {
         alert("Cell already occupied!");
       }
@@ -32,21 +36,34 @@ function initGame() {
   }
 
   //choose start player
-  game.currentPlayer = getRandomInt(0,1);
+  game.currentPlayer = baseFunc.getRandomInt(0,1);
 
   //launch game
 
 }
 
 function resetGame() {
+  var i, j;
+
   //reset moves
   game.movesLeft = 9;
 
   //reset board
-   
+  baseFunc.modifyMultiple(cells, function(cell) { 
+    cell.innerHTML = "";
+  });
+ 
+  //reset cell values
+  for (i=0; i<3; i++) {
+    for (j=0; j<3; j++) {
+      grid[i][j] = "";
+    }
+  }
 
   //choose starting player
-  game.currentPlayer = getRandomInt(0,1);
+  game.currentPlayer = baseFunc.getRandomInt(0,1);
+
+  //launch game
 }
 
 function endGame() {
@@ -66,17 +83,25 @@ function nextTurn() {
 
 function checkWin() {
   //check for different cases that equals a win
-  return true;
+  return false;
 }
 
 function checkGame() {
   //checks if the board to see whether there is a win
   //or the game is over (board full) with no win
+
+  //function called after every player move
+  game.movesLeft -= 1;
+  movesLeft.innerHTML = game.movesLeft;
+
+
   if (checkWin()) {
     //game over - win
   } else {   
     if (game.movesLeft <= 0) {
       //game over - no win
+      alert("Game Over");
+      resetGame();
     } else {
       nextTurn();
     }   

@@ -41,3 +41,8 @@ body {
 .footer {
   background-color: #aaaaaa;
 }
+
+.moves-left {
+  color: green;
+  font-weight: bold;
+}
