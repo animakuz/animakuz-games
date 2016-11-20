@@ -1,14 +1,44 @@
+
+//--Visual Components
+var gameStatus    = document.getElementById("game-status");
+var currentPlayer = document.getElementById("current-player");
+var movesLeft     = document.getElementById("moves-left");
+var cells         = document.querySelectorAll(".cell");
+
 //--Base Data
-var movesLeft = document.getElementById("moves-left");
-var cells     = document.querySelectorAll(".cell");
-var grid      = [["","",""],["","",""],["","",""]];
-var players   = ["X", "O"];
-var game      = {
+var grid     = [["","",""],["","",""],["","",""]];
+var players  = ["X", "O"];
+var game     = {
   movesLeft: 9,
   currentPlayer: 0  
 };
 
 //--Gameplay
+function resetGame() {
+  var i, j;
+
+  //reset moves
+  game.movesLeft = 9;
+  movesLeft.innerHTML = game.movesLeft;
+  
+  //reset board
+  baseFunc.modifyMultiple(cells, function(cell) { 
+    cell.innerHTML = "";
+  });
+ 
+  //reset cell values
+  for (i=0; i<3; i++) {
+    for (j=0; j<3; j++) {
+      grid[i][j] = "";
+    }
+  }
+
+  //Set starting player
+  game.currentPlayer = baseFunc.getRandomInt(0,1);
+  currentPlayer.innerHTML = players[game.currentPlayer];  
+
+  //launch game
+}
 
 function initGame() {
   //setup board on initial launching of game
@@ -34,37 +64,15 @@ function initGame() {
     
     };
   }
-
-  //choose start player
-  game.currentPlayer = baseFunc.getRandomInt(0,1);
-
-  //launch game
-
-}
-
-function resetGame() {
-  var i, j;
-
-  //reset moves
-  game.movesLeft = 9;
-
-  //reset board
-  baseFunc.modifyMultiple(cells, function(cell) { 
-    cell.innerHTML = "";
-  });
- 
-  //reset cell values
-  for (i=0; i<3; i++) {
-    for (j=0; j<3; j++) {
-      grid[i][j] = "";
-    }
-  }
-
-  //choose starting player
-  game.currentPlayer = baseFunc.getRandomInt(0,1);
+  
+  //show game status text 
+  baseFunc.removeClass(gameStatus, "hidden");
 
   //launch game
+  resetGame();
 }
+
+
 
 function endGame() {
   //show game over screen and results
@@ -79,6 +87,8 @@ function nextTurn() {
   } else {
     game.currentPlayer = 0;
   }
+  
+  currentPlayer.innerHTML = players[game.currentPlayer];
 }
 
 function checkWin() {

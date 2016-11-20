@@ -37,12 +37,20 @@ body {
   background-color: #ffaaaa;
 }
 
-
-.footer {
-  background-color: #aaaaaa;
+.header {
+  padding: 5px 0 2px;
 }
 
-.moves-left {
+.footer {
+  background-color: #eee;
+  padding: 2px 0;
+}
+
+.current-player, .moves-left {
   color: green;
   font-weight: bold;
+}
+
+.hidden {
+  visibility: hidden;
 }
