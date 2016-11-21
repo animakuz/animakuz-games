@@ -3,6 +3,7 @@
 var gameStatus    = document.getElementById("game-status");
 var currentPlayer = document.getElementById("current-player");
 var movesLeft     = document.getElementById("moves-left");
+var newGameBtn    = document.getElementById("new-game");
 var cells         = document.querySelectorAll(".cell");
 
 //--Base Data
@@ -26,6 +27,9 @@ function resetGame() {
     cell.innerHTML = "";
   });
  
+  //remove new game button
+  baseFunc.addClass(newGameBtn, "hidden");
+
   //reset cell values
   for (i=0; i<3; i++) {
     for (j=0; j<3; j++) {
@@ -36,7 +40,8 @@ function resetGame() {
   //Set starting player
   game.currentPlayer = baseFunc.getRandomInt(0,1);
   currentPlayer.innerHTML = players[game.currentPlayer];  
-
+  
+  
 }
 
 function initGame() {
@@ -106,6 +111,7 @@ function newGame() {
     resetGame();
   } else {
     alert("Thank you for playing");  
+    baseFunc.removeClass(newGameBtn, "hidden");
   }
 }
 
@@ -142,3 +148,9 @@ function checkGame() {
 
 initGame();
 
+
+//Other GUI interaction
+
+newGameBtn.onclick = function() {
+  resetGame();
+};
