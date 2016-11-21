@@ -37,7 +37,34 @@ body {
   background-color: #ffaaaa;
 }
 
+.header {
+  padding: 5px 0 2px;
+}
 
 .footer {
-  background-color: #aaaaaa;
+  background-color: #eee;
+  padding: 2px 0;
+}
+
+.current-player, .moves-left {
+  color: green;
+  font-weight: bold;
+}
+
+.new-game {
+  color: #666;
+  display: inline-block;
+  background-color: #aaffaa;
+  padding: 10px 30px;
+  margin: 10px auto;
+  cursor: pointer; 
+}
+
+.new-game:hover {
+  color: #ffffff;
+  background-color: #99ee99;
+}
+
+.hidden {
+  display: none;
 }
