@@ -29,7 +29,7 @@ function resetGame() {
  
   //remove new game button
   baseFunc.addClass(newGameBtn, "hidden");
-
+  
   //reset cell values
   for (i=0; i<3; i++) {
     for (j=0; j<3; j++) {
@@ -41,6 +41,8 @@ function resetGame() {
   game.currentPlayer = baseFunc.getRandomInt(0,1);
   currentPlayer.innerHTML = players[game.currentPlayer];  
   
+  //show game status
+  baseFunc.removeClass(gameStatus, "hidden");
   
 }
 
@@ -107,10 +109,10 @@ function newGame() {
   var resp =  confirm("Would you like to start a new game?");
         
   if (resp) {
-    baseFunc.removeClass(gameStatus, "hidden");
     resetGame();
   } else {
     alert("Thank you for playing");  
+    baseFunc.addClass(gameStatus, "hidden");
     baseFunc.removeClass(newGameBtn, "hidden");
   }
 }
@@ -134,7 +136,6 @@ function checkGame() {
   } else {   
     if (game.movesLeft <= 0) {
       //game over - no win
-      baseFunc.addClass(gameStatus, "hidden");
 
       alert("Game Over - It's a draw!");
       newGame();
