@@ -97,11 +97,35 @@ function nextTurn() {
 }
 
 function checkWin() {
+  var i, j;
+  var isWin = false;
+
   //check for different cases that equals a win
-  if (baseFunc.getRandomInt(1,3) == 2) {
-    return players[game.currentPlayer];
-  } else { 
-    return false;
+  if ((9 - game.movesLeft) > 4) {
+    //only check current player
+    
+    //rows
+    for (i=0; i<3; i++) {
+      for (j=0; j<3; j++) { 
+        if (grid[i][j] == game.currentPlayer) {
+          isWin = true;
+        } else { 
+          iswin = false; 
+          break;
+        } 
+      }
+      
+      if (isWin) { 
+        return true;
+      } 
+    }   
+
+    //columns
+
+    //diagonal    
+    
+
+    return isWin;
   }
 }
 
@@ -130,7 +154,7 @@ function checkGame() {
 
   if (winner) {
     //game over - win
-    alert("Game Over - " + winner + " has won!");
+    alert("Game Over - " + players[game.currentPlayer] + " has won!");
 
     newGame();
   } else {   
