@@ -11,7 +11,8 @@ var grid     = [["","",""],["","",""],["","",""]];
 var players  = ["X", "O"];
 var game     = {
   movesLeft: 9,
-  currentPlayer: 0  
+  currentPlayer: 0,
+  inPlay: false 
 };
 
 //--Gameplay
@@ -43,6 +44,9 @@ function resetGame() {
   
   //show game status
   baseFunc.removeClass(gameStatus, "hidden");
+
+  //launch game
+  game.inPlay = true;
   
 }
 
@@ -56,17 +60,18 @@ function initGame() {
       var cellId = cell.getAttribute("id");
       var indY   = cellId[1];
       var indX   = cellId[2];
-
-      if (grid[indY][indX] == "") {
-        grid[indY][indX] = players[game.currentPlayer];
-        cell.innerHTML = players[game.currentPlayer];
-        baseFunc.addClass(cell, "occupied");  
+      
+      if (game.inPlay) {
+        if (grid[indY][indX] == "") {
+          grid[indY][indX] = players[game.currentPlayer];
+          cell.innerHTML = players[game.currentPlayer];
+          baseFunc.addClass(cell, "occupied");  
      
-        checkGame();        
-      } else {
-        alert("Cell already occupied!");
+          checkGame();        
+        } else {
+          alert("Cell already occupied!");
+        }
       }
-    
     };
   }
   
@@ -98,7 +103,7 @@ function nextTurn() {
 
 function checkWin() {
   var i, j;
-  var isWin = false;
+  var fullLine = false;
 
   //check for different cases that equals a win
   if ((9 - game.movesLeft) > 4) {
@@ -106,16 +111,18 @@ function checkWin() {
     
     //rows
     for (i=0; i<3; i++) {
-      for (j=0; j<3; j++) { 
-        if (grid[i][j] == game.currentPlayer) {
-          isWin = true;
-        } else { 
-          iswin = false; 
+      for (j=0; j<3; j++) {
+        if (grid[i][j] == players[game.currentPlayer]) {
+          fullLine = true;
+          console.log("row: " + i + " col: " + j + " fullLine?: " + fullLine);
+       } else { 
+          fullLine = false; 
+          console.log("row: " + i + " col: " + j + " fullLine?: " + fullLine);
           break;
         } 
       }
       
-      if (isWin) { 
+      if (fullLine) { 
         return true;
       } 
     }   
@@ -125,7 +132,7 @@ function checkWin() {
     //diagonal    
     
 
-    return isWin;
+    return false;
   }
 }
 
@@ -155,13 +162,14 @@ function checkGame() {
   if (winner) {
     //game over - win
     alert("Game Over - " + players[game.currentPlayer] + " has won!");
-
+    game.inPlay = false;
     newGame();
   } else {   
     if (game.movesLeft <= 0) {
       //game over - no win
 
       alert("Game Over - It's a draw!");
+      game.inPlay = false;
       newGame();
      
     } else {
