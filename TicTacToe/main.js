@@ -105,6 +105,8 @@ function checkWin() {
   var i, j;
   var rowCount = 0;
   var colCount = 0;
+  var lastPlayer = players[game.currentPlayer];
+
   //check for different cases that equals a win
   if ((9 - game.movesLeft) > 4) {
     //rows
@@ -112,7 +114,7 @@ function checkWin() {
       rowCount = 0;
 
       for (j=0; j<3; j++) {
-        if (grid[i][j] == players[game.currentPlayer]) {
+        if (grid[i][j] == lastPlayer) {
           rowCount++;
         }  
       }
@@ -127,7 +129,7 @@ function checkWin() {
       colCount = 0;
       
       for (i=0; i<3; i++) {
-        if (grid[i][j] == players[game.currentPlayer]) {
+        if (grid[i][j] == lastPlayer) {
           colCount++;
         }
       } 
@@ -136,8 +138,17 @@ function checkWin() {
         return true;
       }
      } 
+   
     //diagonal    
-    
+    if (grid[1][1] == lastPlayer) {
+      if (grid[0][0] == lastPlayer && grid[2][2] == lastPlayer) {
+        return true;
+      } 
+
+      if (grid[0][2] == lastPlayer && grid[2][0] == lastPlayer) {
+        return true;
+      } 
+    }      
 
     return false;
   }
