@@ -103,32 +103,39 @@ function nextTurn() {
 
 function checkWin() {
   var i, j;
-  var fullLine = false;
-
+  var rowCount = 0;
+  var colCount = 0;
   //check for different cases that equals a win
   if ((9 - game.movesLeft) > 4) {
-    //only check current player
-    
     //rows
     for (i=0; i<3; i++) {
+      rowCount = 0;
+
       for (j=0; j<3; j++) {
         if (grid[i][j] == players[game.currentPlayer]) {
-          fullLine = true;
-          console.log("row: " + i + " col: " + j + " fullLine?: " + fullLine);
-       } else { 
-          fullLine = false; 
-          console.log("row: " + i + " col: " + j + " fullLine?: " + fullLine);
-          break;
-        } 
+          rowCount++;
+        }  
       }
       
-      if (fullLine) { 
+      if (rowCount >= 3) { 
         return true;
       } 
     }   
 
     //columns
+    for (j=0; j<3; j++) {
+      colCount = 0;
+      
+      for (i=0; i<3; i++) {
+        if (grid[i][j] == players[game.currentPlayer]) {
+          colCount++;
+        }
+      } 
 
+      if (colCount >= 3) {
+        return true;
+      }
+     } 
     //diagonal    
     
 
