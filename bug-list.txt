@@ -1,5 +1,0 @@
-Tic-Tac-Toe
-
-1. Moves left and current player staying after clicking cancel on response to new game confirm.
- 1.a Related - After clicking new game button moves left and current player are not shown
-
