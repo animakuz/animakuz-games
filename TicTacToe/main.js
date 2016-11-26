@@ -48,6 +48,10 @@ function resetGame() {
   //launch game
   game.inPlay = true;
   
+  //launch ai play if pc goes first
+  if (game.currentPlayer == 1) {
+    pcTurn();
+  }
 }
 
 var markCell = function (element) {    
@@ -75,7 +79,9 @@ function initGame() {
 
   for (i=0; i<len; i++) {
     cells[i].onclick = function() {
-      markCell(this);
+      if (game.currentPlayer == 0) {
+        markCell(this);
+      }
     };
   } 
   //show game status text 
@@ -92,7 +98,6 @@ function pcTurn() {
   var temp;
   var i;
 
-
   do {
     movePosY = baseFunc.getRandomInt(0,2);
     movePosX = baseFunc.getRandomInt(0,2);
@@ -107,9 +112,9 @@ function pcTurn() {
   for (i=0; i<10; i++) {
     temp = cells[i].getAttribute("id");
     if (temp == "c" + movePosY + movePosX) {   
-      console.log("Cell being marked is cell: " + movePosY + "-" + movePosX);
-      markCell(cells[i]);
-
+      setTimeout(function() {
+        markCell(cells[i]);
+      }, 1000);
       break;
     }
   }  
