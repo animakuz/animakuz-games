@@ -48,33 +48,42 @@ function resetGame() {
   //launch game
   game.inPlay = true;
   
+  //launch ai play if pc goes first
+  if (game.currentPlayer == 1) {
+    pcTurn();
+  }
 }
+
+var markCell = function (element) {    
+  var cell   = element;
+  var cellId = cell.getAttribute("id");
+  var indY   = cellId[1];
+  var indX   = cellId[2];
+      
+  if (game.inPlay) {
+    if (grid[indY][indX] == "") {
+      grid[indY][indX] = players[game.currentPlayer];
+      cell.innerHTML = players[game.currentPlayer];
+      baseFunc.addClass(cell, "occupied");  
+     
+      checkGame();        
+    } else {
+      alert("Cell already occupied!");
+    }
+  }
+};
 
 function initGame() {
   //setup board on initial launching of game
   var i, len = cells.length;
 
   for (i=0; i<len; i++) {
-    cells[i].onclick = function() {    
-      var cell   = this;
-      var cellId = cell.getAttribute("id");
-      var indY   = cellId[1];
-      var indX   = cellId[2];
-      
-      if (game.inPlay) {
-        if (grid[indY][indX] == "") {
-          grid[indY][indX] = players[game.currentPlayer];
-          cell.innerHTML = players[game.currentPlayer];
-          baseFunc.addClass(cell, "occupied");  
-     
-          checkGame();        
-        } else {
-          alert("Cell already occupied!");
-        }
+    cells[i].onclick = function() {
+      if (game.currentPlayer == 0) {
+        markCell(this);
       }
     };
-  }
-  
+  } 
   //show game status text 
   baseFunc.removeClass(gameStatus, "hidden");
 
@@ -82,6 +91,35 @@ function initGame() {
   resetGame();
 }
 
+function pcTurn() {
+  var moveValid = false;
+  var movePosY;
+  var movePosX;
+  var temp;
+  var i;
+
+  do {
+    movePosY = baseFunc.getRandomInt(0,2);
+    movePosX = baseFunc.getRandomInt(0,2);
+    
+    if (grid[movePosY][movePosX] == "") {
+      moveValid = true;
+    }
+
+  } while (moveValid == false);
+  
+  //find corresponding cell
+  for (i=0; i<10; i++) {
+    temp = cells[i].getAttribute("id");
+    if (temp == "c" + movePosY + movePosX) {   
+      setTimeout(function() {
+        markCell(cells[i]);
+      }, 1000);
+      break;
+    }
+  }  
+  
+}
 
 
 function endGame() {
@@ -94,10 +132,11 @@ function nextTurn() {
   //switch turns
   if (game.currentPlayer == 0) {
     game.currentPlayer = 1;
+    pcTurn();
   } else {
     game.currentPlayer = 0;
   }
-  
+    
   currentPlayer.innerHTML = players[game.currentPlayer];
 }
 
