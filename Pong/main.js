@@ -47,6 +47,12 @@ var ball = {
     ctx.fillStyle = this.color;
     ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
     ctx.fill();
+  },
+  speedUp: function() {
+    //speed up ball
+    this.speed += 1;
+    this.dx = this.speed * (this.dx / Math.abs(this.dx));
+    this.dy = this.speed * (this.dy / Math.abs(this.dy)); 
   }
 };
 
@@ -81,7 +87,8 @@ var game = {
   },
   death: function() {
     //death when ball drops below pit line (bottom)
-    ball.y = ball.r ;
+    ball.speedUp();
+    ball.y = ball.r;
   }
 };
 
