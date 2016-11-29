@@ -87,8 +87,17 @@ var game = {
   },
   death: function() {
     //death when ball drops below pit line (bottom)
-    ball.speedUp();
     ball.y = ball.r;
+    game.lives -= 1;
+    if (game.lives === 0) {
+      game.over();
+    }   
+  },
+  over: function() {
+    //stop game loop
+    
+    //show game over screen  
+    alert("Game Over");
   }
 };
 
