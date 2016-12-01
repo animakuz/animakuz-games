@@ -1,4 +1,3 @@
-
 //--References to Visual Components
 var canvas = document.getElementById("pong-canvas");
 var ctx    = canvas.getContext("2d");
@@ -12,60 +11,78 @@ var ball = {
   dx   : 0,
   dy   : 0,
   speed: 0,
-  color: "#55f",
-  reset: function() {  
+  active: false,
+  color : "#55f",
+  reset : function() {  
     this.x = this.r;
     this.y = this.r;
     this.speed = 1;
     this.dx = this.speed;
     this.dy = this.speed;
+    this.active = true;
   },
   move: function() {
-    //Change data that represents position of ball
-    this.x += this.dx;
-    this.y += this.dy;
+    if (this.active) {
+      //Change data thit represents position of ball
+      this.x += this.dx;
+      this.y += this.dy;
 
-    //collisions
-    if (this.x + this.r >= game.board.width || this.x - this.r <= 0) {
-      //horizontal wall collisions
-      this.dx *= -1;
-    }
+      //collisions
+      if (this.x + this.r >= game.board.width || this.x - this.r <= 0) {
+        //horizontal wall collisions
+        this.dx *= -1;
+      }
 
-    if (this.y - this.r <= 0) {
-      //top wall collision
-      this.dy *= -1;
-    }
+      if (this.y - this.r <= 0) {
+        //top wall collision
+        this.dy *= -1;
+      }
 
-    if (this.y + this.r >= game.board.height) {
-      //pit drop = death
-      game.death();
+      if (this.y + this.r >= game.board.height) {
+        //pit drop = death
+        game.death();
+      }
     }
   },
   update: function() {
-    //update visual component of ball
-    ctx.beginPath();
-    ctx.fillStyle = this.color;
-    ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
-    ctx.fill();
+    if (this.active) {
+      //update visual component of ball
+      ctx.beginPath();
+      ctx.fillStyle = this.color;
+      ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
+      ctx.fill();
+    }
   },
   speedUp: function() {
     //speed up ball
     this.speed += 1;
     this.dx = this.speed * (this.dx / Math.abs(this.dx));
     this.dy = this.speed * (this.dy / Math.abs(this.dy)); 
+  },
+  stop: function() {
+    this.dx = 0;
+    this.dy = 0;
+    this.active = false;
   }
 };
 
 var paddle = {
-  size: 100,
-  x   : 0,
-  y   : 0,
-  move: function(direction) {
+  x : 0,
+  y : 0,
+  width: 100,
+  height: 20,
+  reset: function() {
+    this.x = 0;
+    this.y = game.board.height - this.height;
+  },
+  move: function(xPos) {
     //Change data that represents positon of paddle
     
   },
   update: function() {
     //update visual representation of paddle
+    ctx.fillStyle = "#5f5";
+    ctx.fillRect(this.x, this.y, this.x + this.width, this.y + this.width);
   }  
 };
  
@@ -80,6 +97,9 @@ var game = {
     
     //launch ball
     ball.reset();
+
+    //set paddle
+    paddle.reset();
   },
   board: {
     width : 500,
@@ -94,10 +114,11 @@ var game = {
     }   
   },
   over: function() {
-    //stop game loop
-    
+    //stop ball
+    ball.stop();
+ 
     //show game over screen  
-    alert("Game Over");
+    //alert("Game Over");
   }
 };
 
@@ -105,7 +126,12 @@ var game = {
 function initGame() {
   //launch game
   game.reset() ;
-  
+
+  //move paddle
+  canvas.onmousemove = function(e) {
+    paddle.move(e.clientX);
+  };
+ 
   gameLoop = setInterval(function() {
     //refresh paint area
     ctx.fillStyle = "#000";
