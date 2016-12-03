@@ -42,6 +42,13 @@ var ball = {
         //pit drop = death
         game.death();
       }
+
+      if (this.y + this.r >= paddle.y) {
+        //paddle collision
+        if (this.x > paddle.x && this.x < paddle.x + paddle.width) {
+          this.dy *= -1;
+        }
+      }
     }
   },
   update: function() {
@@ -77,12 +84,12 @@ var paddle = {
   },
   move: function(xPos) {
     //Change data that represents positon of paddle
-    
+    this.x = xPos - canvas.getBoundingClientRect().left - (this.width /2); 
   },
   update: function() {
     //update visual representation of paddle
     ctx.fillStyle = "#5f5";
-    ctx.fillRect(this.x, this.y, this.x + this.width, this.y + this.width);
+    ctx.fillRect(this.x, this.y, this.width, this.width);
   }  
 };
  
