@@ -47,11 +47,12 @@ var ball = {
         //paddle collision
         if (this.x > paddle.x && this.x < paddle.x + paddle.width) {
           this.dy *= -1;
+          game.updateScore();
         }
       }
     }
   },
-  update: function() {
+  render: function() {
     if (this.active) {
       //update visual component of ball
       ctx.beginPath();
@@ -86,7 +87,7 @@ var paddle = {
     //Change data that represents positon of paddle
     this.x = xPos - canvas.getBoundingClientRect().left - (this.width /2); 
   },
-  update: function() {
+  render: function() {
     //update visual representation of paddle
     ctx.fillStyle = "#5f5";
     ctx.fillRect(this.x, this.y, this.width, this.width);
@@ -95,12 +96,14 @@ var paddle = {
  
 var game = {
   inPlay: false,
-  points: 0,
+  score : 0,
+  level : 0,
   lives : 0,
   reset : function () {
     this.inPlay = true;
-    this.points = 0;
-    this.lives  = 3;
+    this.score = 0;
+    this.level = 1;
+    this.lives = 3;
     
     //launch ball
     ball.reset();
@@ -110,7 +113,16 @@ var game = {
   },
   board: {
     width : 500,
-    height: 400
+    height: 400   
+  },
+  updateScore: function() {
+    this.score += 1;
+
+    if (this.score % 2 == 0) {
+      //update speed and level ever 10 score updates
+      this.level += 1;
+      ball.speedUp();
+    }
   },
   death: function() {
     //death when ball drops below pit line (bottom)
@@ -144,8 +156,8 @@ function initGame() {
     ctx.fillStyle = "#000";
     ctx.fillRect(0, 0, game.board.width, game.board.height);
     ball.move();
-    ball.update();
-    paddle.update();
+    ball.render();
+    paddle.render();
   }, 32);
 };
 
