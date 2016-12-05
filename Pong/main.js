@@ -1,4 +1,9 @@
 //--References to Visual Components
+var infoBar= document.getElementById("info-bar");
+var score  = document.getElementById("score");
+var level  = document.getElementById("level");
+var lives  = document.getElementById("lives");
+
 var canvas = document.getElementById("pong-canvas");
 var ctx    = canvas.getContext("2d");
 var gameLoop; 
@@ -47,7 +52,7 @@ var ball = {
         //paddle collision
         if (this.x > paddle.x && this.x < paddle.x + paddle.width) {
           this.dy *= -1;
-          game.updateScore();
+          game.updateGameData();
         }
       }
     }
@@ -115,7 +120,7 @@ var game = {
     width : 500,
     height: 400   
   },
-  updateScore: function() {
+  updateGameData: function() {
     this.score += 1;
 
     if (this.score % 2 == 0) {
@@ -123,11 +128,16 @@ var game = {
       this.level += 1;
       ball.speedUp();
     }
+
+    score.innerHTML = this.score;
+    level.innerHTML = this.level;
   },
   death: function() {
     //death when ball drops below pit line (bottom)
     ball.y = ball.r;
     game.lives -= 1;
+    lives.innerHTML = game.lives;
+
     if (game.lives === 0) {
       game.over();
     }   
