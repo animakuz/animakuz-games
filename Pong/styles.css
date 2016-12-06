@@ -16,3 +16,17 @@ body {
   background-color: #111;
   margin: 0 auto;
 }
+
+.info-bar {
+  background-color: #fefefe; 
+  width: 500px;
+  margin: 0 auto;
+  padding: 4px 0;
+}
+
+.info-bar > span {
+  margin: 0 20px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
