@@ -93,7 +93,7 @@ game_data = { "word" : "", "guess_word" : "", "letters_used": [], "tries" : 0 }
 ind                     = get_rand_index(10);
 game_data["word"]       = words[ind]
 game_data["guess_word"] = make_guess_word(game_data["word"])
-game_data["tries"]      = 3
+game_data["tries"]      = 5
 
 #play
 play_game(game_data)
