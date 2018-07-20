@@ -21,7 +21,7 @@ var ball = {
   reset : function() {  
     this.x = this.r;
     this.y = this.r;
-    this.speed = 1;
+    this.speed = 4;
     this.dx = this.speed;
     this.dy = this.speed;
     this.active = true;
