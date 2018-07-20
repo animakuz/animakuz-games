@@ -47,17 +47,29 @@ def check_win(word, guess_word):
         return False
 
 def play_game(game_data):
-    guess = raw_input("\nPlease enter a letter: ")
+    print "\nType 'quit' to leave game or type full word to solve instantly"
+    guess = raw_input("\nPlease enter a letter and press enter: ")
     
     if guess == "quit":
         #escape condition
+        print "\nThanks for playing!"
         quit()
 
-    if guess not in game_data["letters_used"]:
+    elif check_win(game_data["word"], guess) == True:
+        #end game if correct word guessed
+        print "\nYou guessed '" + game_data["word"] + "' correctly. You have won!\n"
+
+    elif guess not in game_data["letters_used"]:
+        #check letters
         guess_result = check_guess(guess, game_data["word"], game_data["guess_word"])   
         
         if guess_result[0] == False:
-            print "\nThis letter is incorrect!\n"
+            if len(guess) > 1:
+                print "\nThis guess is incorrect!\n"
+
+            else:
+                print "\nThis letter is incorrect!\n"
+
             game_data["tries"] -= 1
         else:
             print "\nThis letter is correct!\n"
